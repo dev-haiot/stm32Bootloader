@@ -8,6 +8,7 @@
   */
 
 #include "main.h"
+#include <string.h>
 
 /****************************************************************************************
  * Prototypes
@@ -53,7 +54,9 @@ void Setup(void)
 	Delay_Init();
 	GPIOA_Init();
 	USART_Setup(115200);
-	USART_SendString("Nhan nut '0' tren Bluetooth de nhay sang APP\r\n");
+	
+	// printf("Nhan nut '0' tren Bluetooth de nhay sang APP\n");
+	printf("Nhan nut (PA1) hoac go '(boot)' nhay sang APP\n");
 }
 bool Button_Read(void)
 {
@@ -70,21 +73,39 @@ void Loop(void)
 		start = millis();
 	}
 	
-	/* Nhan nut PA1 -> nhay sang Application 
+	/* Nhan nut PA1 -> nhay sang Application */
 	if (!Button_Read()) // nhan nut
 	{
 		Jump_To_Application();
 	}
-	*/
-	
+
+	/* Khong dung scanf 
 	if (USART_Available() != 0)
 	{
 		char c = USART_GetChar();
 		if (c == '0')
 		{
-			USART_SendString("Dang nhay qua APP...\r\n");
+			printf("Dang nhay qua APP...\n");
       Delay_Ms(10);
 			Jump_To_Application();
+		}
+	}
+	*/
+	
+	if (USART_Available() != 0)
+	{
+		char cmd[16] = {0};
+		scanf("%s", cmd);
+		if (strcmp(cmd, "boot") == 0)
+		{
+			printf("Dang nhay qua APP...\r\n");
+			Delay_Ms(10);
+			Jump_To_Application();
+		}
+		else
+		{
+			printf("Lenh khong hop le\n");
+			printf("Vui long go lenh 'boot' de nhay sang APP\n");
 		}
 	}
 }

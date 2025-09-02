@@ -1,6 +1,6 @@
 #include "uart.h"
 #include "delay.h"
-
+#include <stdio.h>
 static USART_TypeDef *pUSARTx = USART1; // default USART1
 
 #define RX_BUF_SIZE 2048 /* enlarged to hold up to one full 1K YMODEM packet plus latency */
@@ -150,4 +150,41 @@ void USART2_IRQHandler(void)
             rx_head = next_head;
         }
     }
+}
+
+
+/* ----------- printf redirect ------------ */
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+
+FILE __stdout;
+
+static void _sys_exit(int x)
+{
+    x = x;
+}
+
+PUTCHAR_PROTOTYPE
+{
+	(void)f;
+	
+	if (ch == '\n')
+	{
+		USART_SendData(pUSARTx, '\r');
+		while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TXE) == RESET);
+	}
+	USART_SendData(pUSARTx, (uint8_t)ch);
+	while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TXE) == RESET);
+	
+	return ch;
+}
+
+#define GETCHAR_PROTOTYPE int fgetc(FILE *f)
+
+GETCHAR_PROTOTYPE
+{
+	(void)f;
+	
+	while (!USART_Available());
+	
+	return (int)USART_GetChar();
 }
