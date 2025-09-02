@@ -56,7 +56,7 @@ void Setup(void)
 	USART_Setup(115200);
 	
 	// printf("Nhan nut '0' tren Bluetooth de nhay sang APP\n");
-	printf("Nhan nut (PA1) hoac go '(boot)' nhay sang APP\n");
+	printf("Nhan nut 'PA1' hoac go 'boot' nhay sang APP\n");
 }
 bool Button_Read(void)
 {
