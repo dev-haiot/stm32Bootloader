@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\delay;..\inc;..\src</IncludePath>
+              <IncludePath>..\delay;..\inc;..\src;..\..\user</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -413,6 +413,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\jump.c</FilePath>
             </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -427,6 +432,11 @@
               <FileName>jump.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\inc\jump.h</FilePath>
+            </File>
+            <File>
+              <FileName>flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\inc\flash.h</FilePath>
             </File>
           </Files>
         </Group>
